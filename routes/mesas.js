@@ -14,6 +14,19 @@ router.get('', async (req, res) => {
     }
 });
 
+router.get('/sector/:id_sector', async (req, res) => {
+    try {
+        const id_sector = req.params.id_sector;
+        const mesa = await mesasRepo.getTablesBySector(id_sector)
+        if (mesa)
+            res.status(200).send(mesa);
+        else
+            res.status(404).send({ mensaje: 'No existen mesas en este sector' });
+    } catch (err) {
+        res.status(500).send({ mensaje: err.sqlMessage });
+    }
+});
+
 router.get('/:id', async (req, res) => {
     try {
         const id = req.params.id;
